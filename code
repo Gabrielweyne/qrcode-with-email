@@ -1,0 +1,35 @@
+import webbrowser
+import qrcode
+import yagmail
+
+print("Hello! In this program, we will receive a link, turn it into a QR Code, and send it to your email.")
+
+link = input("Enter the link you want to turn into a QR Code: ")
+webbrowser.oppen(link)
+confirm_link = input("Is this the correct link?)
+
+if confirm_link.lower() == "no":
+    link = input("Enter the link again: ")
+
+img = qrcode.make(link)
+img.save("qrcode.png")
+
+sender_email = "qrcodelink159@gmail.com"
+password = "ruws uqpb hlht iwyg"
+
+receiver_email = input("Enter your email: ")
+confirm_email = input(f"Is this your email? {} ".format(receiver_email))
+
+if confirm_email.lower() == "no":
+    receiver_email = input("Enter your email again: ")
+
+yag = yagmail.SMTP(sender_email, password)
+
+yag.send(
+    to=receiver_email,
+    subject="Generated QR Code",
+    contents="Hello! The QR Code is attached.",
+    attachments="qrcode.png"
+)
+
+print("Email sent successfully!")
